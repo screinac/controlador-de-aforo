@@ -13,6 +13,8 @@ Protocolo idea: Wifi
 
 9°Compilacion cruzada 
 10°Chat de maquinas
+11 Domótica
+12 Robot inteligente
 
 
 BluHosting -11k - 1GB ram - 2.6GHz
