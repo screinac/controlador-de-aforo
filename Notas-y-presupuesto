@@ -1,10 +1,12 @@
-1. El dispositivo mude 1.20, tiene una base y un sensor ultrasonido e infrarojo a cada lado. Tambien tene pines multiproposito que permiten conectar más sensores y otros que permiten hacer una conexión (SPI, i2c o uart) con un microcontrolador externo que no tenga la capacidad de entrar al servidor. Tabien tendrá un relé que se active cuando se supere el número de personas y sea de uso general.
+1. El dispositivo mude 1.20, tiene una base y un par sensor ultrasonido e infrarojo a cada lado. Tambien tene pines que permiten hacer una conexión (SPI, i2c o uart) con un microcontrolador externo para hacer más tareas con los datos recolectados si este no puede sacar la información del servidor. Tambien tendrá un relé que se active cuando se supere el número de personas y sea de uso general.
 
 2. Switch (o botón) de encendido y apagado.
 
 3. Conectar a corriente.
 
 4. Indicador de encendido
+
+5. El usuario puede configurar como entrada o salida cada sensor. Crear un modo configuración donde el dispositivo empiece a hablar y prender un led para saber a que sensor se refiere y seguidamente diga si es una entrada o una salida.
 
 PRESUPUESTO
 
@@ -23,4 +25,6 @@ sub-Total: $122.000
 Software:
 
 - Base de datos
+
+
 
