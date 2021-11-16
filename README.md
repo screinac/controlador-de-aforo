@@ -1,6 +1,13 @@
-# embebidos-proyecto-final
+# Controlador-de-Aforo
 
-Protocolo idea: Wifi
+## Datasheet:
+
+ESP32: https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf
+
+FT232R: https://ftdichip.com/wp-content/uploads/2020/08/DS_FT232R.pdf
+
+
+## Protocolo idea: Wifi
 
 1°Uso de bases de datos
 2°IoT conexion router local
