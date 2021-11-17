@@ -34,4 +34,8 @@ La programacion del dispositivo se realizara a traves de los pines <sub>U0</sub>
 
 Para poder implementar el proyecto dentro del microcontrolador se hara uso de la herramienta **ESPTOOL** la cual nos permite flashear(Reescribir) la memoria flash con la aplicacion que se ha programado para el chip, esto haciendo uso de los pines <sub>CLK</sub>OUT1 (23) para reescribir los datos de la memoria y <sub>Chip</sub>PU (9) para reiniciar el microcontrolador.
 
+Por ende el bloque de programacion es muy sencillo, implementando unicamente 2 pines hembra donde iran Tx y Rx, ademas de un pulsador necesario para poder Flashear la memoria como se puede observar en el siguiente esquema:
+
+<img src="./Imagenes/KiCAD-Esquema-Programador.png" alt='KiCAD - Conexiones fisicas del programador - Controlador de Aforo' width="350px"/>
+
 Teniendo lo anterior en cuenta se necesita hablar del entorno de programacion, de modo que para este proyecto se hara uso de **ZephyrOS**
