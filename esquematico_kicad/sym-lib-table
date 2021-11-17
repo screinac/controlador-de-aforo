@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name ESP32)(type Legacy)(uri /home/sergio/Documents/U/Embebidos/embebidos-proyecto-final/esquematico_kicad/lib/ESP32-footprints-Shem-Lib.lib)(options "")(descr ESP32))
-)
