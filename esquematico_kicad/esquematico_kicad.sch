@@ -16,12 +16,12 @@ $EndDescr
 $Comp
 L Connector:Conn_01x04_Female J?
 U 1 1 61942D89
-P 8500 3050
-F 0 "J?" H 8528 3026 50  0000 L CNN
-F 1 "Conn_01x04_Female" H 8528 2935 50  0000 L CNN
-F 2 "" H 8500 3050 50  0001 C CNN
-F 3 "~" H 8500 3050 50  0001 C CNN
-	1    8500 3050
+P 7500 4150
+F 0 "J?" H 7528 4126 50  0000 L CNN
+F 1 "Conn_01x04_Female" H 7528 4035 50  0000 L CNN
+F 2 "" H 7500 4150 50  0001 C CNN
+F 3 "~" H 7500 4150 50  0001 C CNN
+	1    7500 4150
 	1    0    0    -1  
 $EndComp
 $Sheet
@@ -33,12 +33,12 @@ $EndSheet
 $Comp
 L RF_Module:ESP32-WROOM-32D U?
 U 1 1 619769EC
-P 5900 3400
-F 0 "U?" H 5900 4981 50  0000 C CNN
-F 1 "ESP32-WROOM-32D" H 5900 4890 50  0000 C CNN
-F 2 "RF_Module:ESP32-WROOM-32" H 5900 1900 50  0001 C CNN
-F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.pdf" H 5600 3450 50  0001 C CNN
-	1    5900 3400
+P 5950 4100
+F 0 "U?" H 5950 5681 50  0000 C CNN
+F 1 "ESP32-WROOM-32D" H 5950 5590 50  0000 C CNN
+F 2 "RF_Module:ESP32-WROOM-32" H 5950 2600 50  0001 C CNN
+F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.pdf" H 5650 4150 50  0001 C CNN
+	1    5950 4100
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
