@@ -1,4 +1,7 @@
 (sym_lib_table
   (lib (name espressif-xess)(type Legacy)(uri ${KIPRJMOD}/lib/ESP32-Footprints/espressif-xess.lib)(options "")(descr ""))
   (lib (name ESP32-footprints-Shem-Lib)(type Legacy)(uri ${KIPRJMOD}/lib/ESP32-Footprints/ESP32-footprints-Shem-Lib.lib)(options "")(descr ""))
+  (lib (name tp4056)(type Legacy)(uri ${KIPRJMOD}/lib/tp4056-master/lib/tp4056.lib)(options Legacy)(descr ""))
+  (lib (name fs8205a)(type Legacy)(uri ${KIPRJMOD}/lib/tp4056-master/lib/fs8205a.lib)(options "")(descr ""))
+  (lib (name dw01)(type Legacy)(uri ${KIPRJMOD}/lib/tp4056-master/lib/dw01.lib)(options "")(descr ""))
 )

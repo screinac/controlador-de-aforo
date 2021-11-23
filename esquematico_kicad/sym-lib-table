@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name ESP32)(type Legacy)(uri ./lib/ESP32-footprints-Shem-Lib.lib)(options "")(descr ESP32))
-)
