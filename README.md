@@ -22,13 +22,38 @@ El controlador de aforo se basa principalmente en el uso del chip **ESP32-WROOM*
 
 ### **ESP32-WROOM:**
 
-Para el proyecto se decidio implementar como SoC el chip ESP-WROOM-32 dada su gran variedad de aplicaciones dentro del IoT ya que es un chip de bajo consumo ideal para alimentarlo a traves de baterias que posee conectividad bluetooth y wifi, su esquema de conexiones es el siguiente:
+Para el proyecto se decidio implementar como SoC el chip ESP-WROOM-32 dada su gran variedad de aplicaciones dentro del IoT ya que es un chip de bajo consumo de modo que en su datasheet se especifica que en el modo activo tiene un consumo maximo de 260mA lo cual es ideal para alimentarlo a traves de baterias ademas que posee conectividad bluetooth y wifi, su esquema de conexiones es el siguiente:
 
 ![Esquema de conexiones ESP32-WROOM-32 - Controlador de Aforo](/Imagenes/ESP32-WROOM-32-pinout.png)
 
 <br /> 
 
 ### **Alimentacion:**
+
+En el sistema de alimentacion se ideo realizar multiples circuitos enfocados en ofrecer multiples opciones de alimentacion al tiempo para el circuito por lo cual se ideo implementar un modulo de carga por baterias recargables, que incluso pueda funcionar y cargar las baterias al tiempo de modo que el diseño se dividio por varias etapas.
+
+#### **Alimentacion - Modulo de Carga:**
+
+Para el modulo de carga se ideo extraer la energia necesaria a traves de un conector Tipo-C que se conectase a una fuente de alimentacion, de modo que utilizando el integrado TP4056 con una resistencia de ajuste con un valor de $1.2k\Omega$ se obtenga una etapa de corriente maxima a 1A aproximadamente y luego una etapa de tension constante para terminar de cargar la bateria, el estado de carga se indicara a traves de 2 LEDs distintos para saber en que proceso se encuentra el dispositivo. Luego se implemento directamente una etapa de proteccion utilizando el integrado DW01A-G el cual protege la bateria de Sobrecarga, Sobredescarga y Cortocircuitos utilizando el circuito de referencia que proporciona el fabricante, de modo que el esquema del Modulo de carga resultante se puede observar en la figura a continuacion:
+
+<img src="./Imagenes/EasyEDA-Esquema-Alimentacion-Carga.png" alt='EasyEDA - Conexiones fisicas del modulo de carga de la bateria - Controlador de Aforo' width="1000px"/>
+
+#### **Alimentacion - Multiplicador de Tension:**
+
+Debido a que multiples dispositivos que se implementaran requieren una tension de 5v se realizo una etapa de multiplicacion de Tension realimentada utilizando el integrado MT3608 el cual independientemente de la tension de entrada siempre entregara 5v siguiendo una expresion lineal de realimentacion entre la resistencia 1 (R1=$7.5k\Omega$) y la resistencia 2 (R2=$1k\Omega$), su esquema respectivo se puede observar en la siguiente figura:
+
+<img src="./Imagenes/EasyEDA-Esquema-Alimentacion-Elevacion.png" alt='EasyEDA - Conexiones fisicas del modulo de Elevacion de tension - Controlador de Aforo' width="700px"/>
+
+#### **Alimentacion - Puente de Carga**
+
+Algo importante a tener en cuenta es que aunque el circuito pueda seguir funcionando mientras esta cargando, en dado caso que el sistema consuma mas alla de 1 amperios, la bateria empezara a descargarse lentamente, de modo que se realizo un puente que cambia entre la conexion de la bateria y la fuente de alimentacion del USB-C a traves de un Mosfet y un diodo schottky lo cual permite que el circuito pueda cargar la bateria al mismo tiempo que seguir en funcionamiento, la unica implicacion a tener en cuenta es que la fuente de alimentacion debe ser capaz de suministrar la corriente de operacion del circuito y la corriente de carga de la bateria para poder funcionar correctamente, el esquema del puente realizado se puede observar en la figura a continuacion:
+
+<img src="./Imagenes/EasyEDA-Esquema-Alimentacion-Puente.png" alt='EasyEDA - Conexiones fisicas del Puente de carga - Controlador de Aforo' width="700px"/>
+
+#### **Alimentacion - Regulador de Tension**
+Por ultimo se implemento una etapa de regulacion de tension para los dispositivos que lo requieren tales como el ESP32, la tarjeta Micro-SD y los LEDs respectivamente los cuales no requieren de mucha corriente, por lo cual se hizo uso del integrado AMS1117-3.3 que viene previamente calibrado para regular la tension a 3.3v respectivamente facilitando enormemente su esquema de conexion el cual se puede observar en la siguiente figura:
+
+<img src="./Imagenes/EasyEDA-Esquema-Alimentacion-Regulador.png" alt='EasyEDA - Conexiones fisicas del modulo regulador de tension - Controlador de Aforo' width="500px"/>
 
 <br />
 
@@ -58,7 +83,7 @@ Para lograr el sistema de deteccion se penso en implementar hasta 4 sensores ult
 
 <br /> 
 
-### **Control Manual**
+### **Control Manual:**
 
 El sistema de control manual unicamente se basa en la interaccion fisica directa entre algun operario y el mismo sistema, de modo que se implementaron 3 sistemas de resistencias Pull-Up con la fuente y tierra usando resistencias de 10k, ademas de que las conexiones de los botones respectivos se dejo abierta por dos pines hembra debido a que se realizara un cableado para colocar estos botones en la carcasa de la caja, los pines utilizados en el microcontrolador son: <sub>GPIO</sub>39, <sub>GPIO</sub>39 y <sub>GPIO</sub>39, el esquema resultante del control manual se puede observar en la figura a continuacion:
 
@@ -67,19 +92,20 @@ El sistema de control manual unicamente se basa en la interaccion fisica directa
 
 <br /> 
 
-### **Sistema de Indicadores**
+### **Sistema de Indicadores:**
 
 En este apartado se implementaron distintos metodos para tener una interaccion mas directa desde el sistema con el usuario, por lo cual a continuacion se describiran los multiples sistemas implementados para dar indicaciones a los usuarios.
 
-#### **Sistema de Indicadores - Audio**
+#### **Sistema de Indicadores - Audio:**
 
 En el caso del Sistema Indicador de Audio se vieron diferentes formas de implementar un speaker, de modo que se opto por implementar el integrado MAX98357A el cual consiste en un decodificador del protocolo I2S seguido de un DAC interno con una etapa de amplificacion clase D. Para el proposito del proyecto aunque el protocolo soportase usar dos canales diferentes, unicamente se implemento un canal (Izquierdo) lo cual implica que el pin SD_MODE del integrado esta conectado directamente a 3.3v, adicionalmente se escogio de manera arbitraria obtener una amplificacion de 15dB por lo cual como se especifica en su datasheet se conecto el pin de ganancia a tierra mediante una resistencia de 100k $\Omega$, otras consideraciones que se realizaron es que las salidas del Speaker (R+ y R-) se conectaron en serie con una impedancia dinamica de altas frecuencias junto a condensadores para filtrar el ruido de alta frecuencia que se puede encontrar el altavoz. Con lo anterior en cuenta se utilizaron 3 pines del microcontrolador destinados al protocolo I2S siendo estos <sub>GPIO</sub>23 (Serial Clock), <sub>GPIO</sub>22 (LRCLK) y <sub>GPIO</sub>21 (Data In), es importante tener en cuenta que el integrado esta diseñado para altavoces entre 4 $\Omega$ y 8 $\Omega$ ademas de tener una entrada de alimentacion entre 2.5v y 5v, lo cual implica que la potencia maxima de la amplificacion es de 3.2w y por ende entrega una corriente maxima de 1.25A, el esquema resultante se puede ver en la figura a continuacion:
 
 
-<img src="./Imagenes/EasyEDA-Esquema-Indicador-Audio-I2S.png" alt='EasyEDA - Conexiones fisicas del Indicador de Audio por I2S - Controlador de Aforo' width="800px"/>
-<img src="./Imagenes/EasyEDA-Esquema-Indicador-Audio-Speaker.png" alt='EasyEDA - Conexiones fisicas del Altavoz - Controlador de Aforo' width="800px"/>
+<img src="./Imagenes/EasyEDA-Esquema-Indicador-Audio-I2S.png" alt='EasyEDA - Conexiones fisicas del Indicador de Audio por I2S - Controlador de Aforo' width="820px"/>
 
-#### **Sistema de Indicadores - LEDs**
+<img src="./Imagenes/EasyEDA-Esquema-Indicador-Audio-Speaker.png" alt='EasyEDA - Conexiones fisicas del Altavoz - Controlador de Aforo' width="500px"/>
+
+#### **Sistema de Indicadores - LEDs:**
 Para el sistema de Indicador visual de LEDs se planteo la utilizacion de los LEDs 
 WS2812B que funcionan a traves de señales digitales y permiten el acople de multiples LEDs utilizando la misma linea de datos de modo que se utilizo el pin <sub>GPIO</sub>4 del microcontrolador para su respectivo control, originalmente se plantea implementar un unico LED RGB pero no se descarta la opcion de implementar LEDs adicionales, de modo que se crea una segunda conexion para realizar el acople con uno o mas LEDs adicionales ademas se debe tener en cuenta que el consumo maximo de cada LED es de 50mA (16mA por cada subLED), debido a que se planea montar los LEDs en la carcasa del dispositivo se realizaron conexiones hembra para todos los pines tanto del primer LED como el acople con los LEDs adicionales para cablearlos afuera de la placa, el esquema respectivo se puede observar en la siguiente figura:
 
@@ -87,7 +113,7 @@ WS2812B que funcionan a traves de señales digitales y permiten el acople de mul
 
 <br /> 
 
-### **Sistema de Almacenamiento**
+### **Sistema de Almacenamiento:**
 
 En el sistema de almacenamiento se opto por la implementacion de una tarjeta Micro-SD a traves del protocolo de comunicacion SPI, de modo que se utilizan 4 pines del microcontrolador siento estos <sub>GPIO</sub>18 (SD_Clock), <sub>GPIO</sub>5 (SD_Input), <sub>GPIO</sub>17 (SD_Output) y <sub>GPIO</sub>16 (Chip Select), la tarjeta MicroSD se conecto a traves de su socket respectivo de modo que se ha de tener en cuenta que esta consume aproximadamente 50mA cuando opera a traves del protocolo SPI, adicionalmente se conecto un LED azul en el Socket de la tarjeta con una resistencia de 180 $\Omega$, el cual funciona como indicador de cuando esta conectada la tarjeta o desconectada de modo que genera un consumo adicional de 3.3mA, el diagrama de conexiones del sistema de almacenamiento se puede observar a continuacion:
 
@@ -95,7 +121,7 @@ En el sistema de almacenamiento se opto por la implementacion de una tarjeta Mic
 
 <br /> 
 
-### **Puertos de Expansion - ${I^2C}$ y GPIO** 
+### **Puertos de Expansion - ${I^2C}$ y GPIO:** 
 
 Debido a que unicamente sobran 3 pines del microcontrolador se decidio conectar 2 de ellos a traves del protocolo de comunicacion ${I^2C}$ de modo que se conectaron en un sistema resistor de Pull-Up con una resistencia de 5k $\Omega$ a la fuente y se dejaron sus conexiones libres a pines hembra para poder conectar dispositivos adicionales con este sistema, los pines implementados para el $I^2C$ Corresponden a <sub>GPIO</sub>13 (SCL) y <sub>GPIO</sub>15 (SDA). En el caso del ultimo pin libre el cual es <sub>GPIO</sub>19 se creo una conexion a un pin hembra de modo que en caso que se requiera por alguna funcionalidad adicional se pueda utilizar libremente en la placa, el esquema correspondiente de los puertos de expansion se pueden observar en la siguiente figura:
 
