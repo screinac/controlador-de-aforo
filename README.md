@@ -85,7 +85,7 @@ Para lograr el sistema de deteccion se penso en implementar hasta 4 sensores ult
 
 ### **Control Manual:**
 
-El sistema de control manual unicamente se basa en la interaccion fisica directa entre algun operario y el mismo sistema, de modo que se implementaron 3 sistemas de resistencias Pull-Up con la fuente y tierra usando resistencias de 10k, ademas de que las conexiones de los botones respectivos se dejo abierta por dos pines hembra debido a que se realizara un cableado para colocar estos botones en la carcasa de la caja, los pines utilizados en el microcontrolador son: <sub>GPIO</sub>39, <sub>GPIO</sub>39 y <sub>GPIO</sub>39, el esquema resultante del control manual se puede observar en la figura a continuacion:
+El sistema de control manual unicamente se basa en la interaccion fisica directa entre algun operario y el mismo sistema, de modo que se implementaron 3 sistemas de resistencias Pull-Up con la fuente y tierra usando resistencias de 10k, ademas de que las conexiones de los botones respectivos se dejo abierta por dos pines hembra debido a que se realizara un cableado para colocar estos botones en la carcasa de la caja, los pines utilizados en el microcontrolador son: <sub>GPIO</sub>27, <sub>GPIO</sub>14 y <sub>GPIO</sub>12, el esquema resultante del control manual se puede observar en la figura a continuacion:
 
 
 <img src="./Imagenes/EasyEDA-Esquema-ControlManual.png" alt='EasyEDA - Conexiones fisicas del Control Manual - Controlador de Aforo' width="600px"/>
@@ -98,7 +98,7 @@ En este apartado se implementaron distintos metodos para tener una interaccion m
 
 #### **Sistema de Indicadores - Audio:**
 
-En el caso del Sistema Indicador de Audio se vieron diferentes formas de implementar un speaker, de modo que se opto por implementar el integrado MAX98357A el cual consiste en un decodificador del protocolo I2S seguido de un DAC interno con una etapa de amplificacion clase D. Para el proposito del proyecto aunque el protocolo soportase usar dos canales diferentes, unicamente se implemento un canal (Izquierdo) lo cual implica que el pin SD_MODE del integrado esta conectado directamente a 3.3v, adicionalmente se escogio de manera arbitraria obtener una amplificacion de 15dB por lo cual como se especifica en su datasheet se conecto el pin de ganancia a tierra mediante una resistencia de 100k $\Omega$, otras consideraciones que se realizaron es que las salidas del Speaker (R+ y R-) se conectaron en serie con una impedancia dinamica de altas frecuencias junto a condensadores para filtrar el ruido de alta frecuencia que se puede encontrar el altavoz. Con lo anterior en cuenta se utilizaron 3 pines del microcontrolador destinados al protocolo I2S siendo estos <sub>GPIO</sub>23 (Serial Clock), <sub>GPIO</sub>22 (LRCLK) y <sub>GPIO</sub>21 (Data In), es importante tener en cuenta que el integrado esta diseñado para altavoces entre 4 $\Omega$ y 8 $\Omega$ ademas de tener una entrada de alimentacion entre 2.5v y 5v, lo cual implica que la potencia maxima de la amplificacion es de 3.2w y por ende entrega una corriente maxima de 1.25A, el esquema resultante se puede ver en la figura a continuacion:
+En el caso del Sistema Indicador de Audio se vieron diferentes formas de implementar un speaker, de modo que se opto por implementar el integrado MAX98357A el cual consiste en un decodificador del protocolo I2S seguido de un DAC interno con una etapa de amplificacion clase D. Para el proposito del proyecto aunque el protocolo soportase usar dos canales diferentes, unicamente se implemento un canal (Izquierdo) lo cual implica que el pin SD_MODE del integrado esta conectado directamente a 3.3v, adicionalmente se escogio de manera arbitraria obtener una amplificacion de 15dB por lo cual como se especifica en su datasheet se conecto el pin de ganancia a tierra mediante una resistencia de 100k $\Omega$, otras consideraciones que se realizaron es que las salidas del Speaker (R+ y R-) se conectaron en serie con una impedancia dinamica de altas frecuencias junto a condensadores para filtrar el ruido de alta frecuencia que se puede encontrar el altavoz. Con lo anterior en cuenta se utilizaron 3 pines del microcontrolador destinados al protocolo I2S siendo estos <sub>GPIO</sub>21 (Serial Clock), <sub>GPIO</sub>22 (LRCLK) y <sub>GPIO</sub>19 (Data In), es importante tener en cuenta que el integrado esta diseñado para altavoces entre 4 $\Omega$ y 8 $\Omega$ ademas de tener una entrada de alimentacion entre 2.5v y 5v, lo cual implica que la potencia maxima de la amplificacion es de 3.2w y por ende entrega una corriente maxima de 1.25A, el esquema resultante se puede ver en la figura a continuacion:
 
 
 <img src="./Imagenes/EasyEDA-Esquema-Indicador-Audio-I2S.png" alt='EasyEDA - Conexiones fisicas del Indicador de Audio por I2S - Controlador de Aforo' width="820px"/>
@@ -107,7 +107,7 @@ En el caso del Sistema Indicador de Audio se vieron diferentes formas de impleme
 
 #### **Sistema de Indicadores - LEDs:**
 Para el sistema de Indicador visual de LEDs se planteo la utilizacion de los LEDs 
-WS2812B que funcionan a traves de señales digitales y permiten el acople de multiples LEDs utilizando la misma linea de datos de modo que se utilizo el pin <sub>GPIO</sub>4 del microcontrolador para su respectivo control, originalmente se plantea implementar un unico LED RGB pero no se descarta la opcion de implementar LEDs adicionales, de modo que se crea una segunda conexion para realizar el acople con uno o mas LEDs adicionales ademas se debe tener en cuenta que el consumo maximo de cada LED es de 50mA (16mA por cada subLED), debido a que se planea montar los LEDs en la carcasa del dispositivo se realizaron conexiones hembra para todos los pines tanto del primer LED como el acople con los LEDs adicionales para cablearlos afuera de la placa, el esquema respectivo se puede observar en la siguiente figura:
+WS2812B que funcionan a traves de señales digitales y permiten el acople de multiples LEDs utilizando la misma linea de datos de modo que se utilizo el pin <sub>GPIO</sub>23 del microcontrolador para su respectivo control, originalmente se plantea implementar un unico LED RGB pero no se descarta la opcion de implementar LEDs adicionales, de modo que se crea una segunda conexion para realizar el acople con uno o mas LEDs adicionales ademas se debe tener en cuenta que el consumo maximo de cada LED es de 50mA (16mA por cada subLED), debido a que se planea montar los LEDs en la carcasa del dispositivo se realizaron conexiones hembra para todos los pines tanto del primer LED como el acople con los LEDs adicionales para cablearlos afuera de la placa, el esquema respectivo se puede observar en la siguiente figura:
 
 <img src="./Imagenes/EasyEDA-Esquema-Indicador-Visual-LED.png" alt='EasyEDA - Conexiones fisicas de los LEDs - Controlador de Aforo' width="600px"/>
 
@@ -115,7 +115,7 @@ WS2812B que funcionan a traves de señales digitales y permiten el acople de mul
 
 ### **Sistema de Almacenamiento:**
 
-En el sistema de almacenamiento se opto por la implementacion de una tarjeta Micro-SD a traves del protocolo de comunicacion SPI, de modo que se utilizan 4 pines del microcontrolador siento estos <sub>GPIO</sub>18 (SD_Clock), <sub>GPIO</sub>5 (SD_Input), <sub>GPIO</sub>17 (SD_Output) y <sub>GPIO</sub>16 (Chip Select), la tarjeta MicroSD se conecto a traves de su socket respectivo de modo que se ha de tener en cuenta que esta consume aproximadamente 50mA cuando opera a traves del protocolo SPI, adicionalmente se conecto un LED azul en el Socket de la tarjeta con una resistencia de 180 $\Omega$, el cual funciona como indicador de cuando esta conectada la tarjeta o desconectada de modo que genera un consumo adicional de 3.3mA, el diagrama de conexiones del sistema de almacenamiento se puede observar a continuacion:
+En el sistema de almacenamiento se opto por la implementacion de una tarjeta Micro-SD a traves del protocolo de comunicacion SPI, de modo que se utilizan 4 pines del microcontrolador siento estos <sub>GPIO</sub>17 (SD_Clock), <sub>GPIO</sub>5 (SD_Input), <sub>GPIO</sub>16 (SD_Output) y <sub>GPIO</sub>18 (Chip Select), la tarjeta MicroSD se conecto a traves de su socket respectivo de modo que se ha de tener en cuenta que esta consume aproximadamente 50mA cuando opera a traves del protocolo SPI, adicionalmente se conecto un LED azul en el Socket de la tarjeta con una resistencia de 180 $\Omega$, el cual funciona como indicador de cuando esta conectada la tarjeta o desconectada de modo que genera un consumo adicional de 3.3mA, el diagrama de conexiones del sistema de almacenamiento se puede observar a continuacion:
 
 <img src="./Imagenes/EasyEDA-Esquema-Almacenamiento.png" alt='EasyEDA - Conexiones fisicas del sistema de Almacenamiento - Controlador de Aforo' width="500px"/>
 
@@ -123,6 +123,24 @@ En el sistema de almacenamiento se opto por la implementacion de una tarjeta Mic
 
 ### **Puertos de Expansion - ${I^2C}$ y GPIO:** 
 
-Debido a que unicamente sobran 3 pines del microcontrolador se decidio conectar 2 de ellos a traves del protocolo de comunicacion ${I^2C}$ de modo que se conectaron en un sistema resistor de Pull-Up con una resistencia de 5k $\Omega$ a la fuente y se dejaron sus conexiones libres a pines hembra para poder conectar dispositivos adicionales con este sistema, los pines implementados para el $I^2C$ Corresponden a <sub>GPIO</sub>13 (SCL) y <sub>GPIO</sub>15 (SDA). En el caso del ultimo pin libre el cual es <sub>GPIO</sub>19 se creo una conexion a un pin hembra de modo que en caso que se requiera por alguna funcionalidad adicional se pueda utilizar libremente en la placa, el esquema correspondiente de los puertos de expansion se pueden observar en la siguiente figura:
+Debido a que unicamente sobran 3 pines del microcontrolador se decidio conectar 2 de ellos a traves del protocolo de comunicacion ${I^2C}$ de modo que se conectaron en un sistema resistor de Pull-Up con una resistencia de 5k $\Omega$ a la fuente y se dejaron sus conexiones libres a pines hembra para poder conectar dispositivos adicionales con este sistema, los pines implementados para el $I^2C$ Corresponden a <sub>GPIO</sub>15 (SCL) y <sub>GPIO</sub>13 (SDA). En el caso del ultimo pin libre el cual es <sub>GPIO</sub>4 se creo una conexion a un pin hembra de modo que en caso que se requiera por alguna funcionalidad adicional se pueda utilizar libremente en la placa, el esquema correspondiente de los puertos de expansion se pueden observar en la siguiente figura:
 
 <img src="./Imagenes/EasyEDA-Esquema-Expansion.png" alt='EasyEDA - Conexiones fisicas de los Puertos de Expansion - Controlador de Aforo' width="500px"/>
+
+<br /> 
+
+### **Esquema General - ESP32:** 
+
+El esquema general de las conexiones anteriormente mencionadas al microcontrolador se puede observar en la figura a continuacion:
+
+<img src="./Imagenes/EasyEDA-Esquema-ESP32.png" alt='EasyEDA - Conexiones fisicas de los Puertos del microcontrolador - Controlador de Aforo' width="500px"/>
+
+<br />
+
+### **PCB y Modelo-3D**
+
+Una vez descritas todas las conexiones planteadas y las funcionalidades de la placa se realizo el respectivo ruteo de las pistas en la PCB teniendo en cuenta las corrientes maximas que se deben soportar sobre cada pista cuando el dispositivo bajo maxima operacion y cargando la bateria respectivamente (Se estima que maximo se consuman hasta 2.6A en casos extremos por la pista VBus), adicionalmente se tomo el tiempo necesario para realizar todas las pistas sobre la capa superior de la placa dando como resultado los esquemas que se observaran a continuacion:
+
+<img src="./Imagenes/EasyEDA-PCB-ControladorAforo.png" alt='EasyEDA - PCB diseñada - Controlador de Aforo' width="500px"/>
+
+<img src="./Imagenes/EasyEDA-3DTop-ControladorAforo.png" alt='EasyEDA - Vista superior Esquema 3D - Controlador de Aforo' width="500px"/>
