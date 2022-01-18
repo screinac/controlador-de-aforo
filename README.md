@@ -1,4 +1,32 @@
 # Sistema Controlador de Aforo
+## Trabajo por hacer con fechas
+Por programar Drivers:
+
+	1. Detector de personas:
+	- Modulo ultrasonido [Sergio 25/01]
+
+	2. Interfaz de usuario:
+	- Led RGB [Sergio 25/01]
+	- 7seg (I2C) [Sergio 29/01]
+	- Control manual (Botones) (Interrupciones) [Sergio 29/01]
+
+	3. Sistema de audio:
+	- Modulo MicroSD [Oscar 25/01]
+	- Protocolo I2S [Oscar 29/01]
+
+	4. Interfaz de red (wifi): [Oscar y Sergio 3/02]
+
+
+5. Código general del funcionamiento usando los Drivers. [Oscar y Sergio 5/02]
+
+6. Documentación [Oscar y Sergio 7/02]
+
+7. Sistema de reservas. (opcional)
+
+Extras:
+
+1. Caja [Oscar y Sergio 29/01] Por ahora**
+
 
 Descripcion (Reemplazar por texto)
 
