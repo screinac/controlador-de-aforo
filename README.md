@@ -1,6 +1,6 @@
 # Sistema Controlador de Aforo
 ## Trabajo por hacer con fechas
-Por programar Drivers:
+### Por programar Drivers:
 
 	1. Detector de personas:
 	- Modulo ultrasonido [Sergio 25/01]
@@ -23,7 +23,7 @@ Por programar Drivers:
 
 7. Sistema de reservas. (opcional)
 
-Extras:
+### Extras:
 
 1. Caja [Oscar y Sergio 29/01] Por ahora**
 
