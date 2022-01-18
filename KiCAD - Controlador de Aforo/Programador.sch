@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:Conn_01x01_Female J?
+L Connector:Conn_01x01_Female J1
 U 1 1 619565C3
 P 5550 3200
-F 0 "J?" H 5578 3226 50  0000 L CNN
+F 0 "J1" H 5578 3226 50  0000 L CNN
 F 1 "Conn_01x01_Female" H 5578 3135 50  0000 L CNN
 F 2 "" H 5550 3200 50  0001 C CNN
 F 3 "~" H 5550 3200 50  0001 C CNN
@@ -31,10 +31,10 @@ TXDu0
 Wire Wire Line
 	5350 3200 5250 3200
 $Comp
-L Connector:Conn_01x01_Female J?
+L Connector:Conn_01x01_Female J2
 U 1 1 61957DED
 P 5550 3500
-F 0 "J?" H 5578 3526 50  0000 L CNN
+F 0 "J2" H 5578 3526 50  0000 L CNN
 F 1 "Conn_01x01_Female" H 5578 3435 50  0000 L CNN
 F 2 "" H 5550 3500 50  0001 C CNN
 F 3 "~" H 5550 3500 50  0001 C CNN
@@ -48,10 +48,10 @@ Boot-Flash
 Text HLabel 5250 4500 0    50   Input ~ 0
 Ground
 $Comp
-L Switch:SW_Push SW?
+L Switch:SW_Push SW1
 U 1 1 61960AB9
 P 5750 4350
-F 0 "SW?" H 5750 4635 50  0000 C CNN
+F 0 "SW1" H 5750 4635 50  0000 C CNN
 F 1 "SW_Push" H 5750 4544 50  0000 C CNN
 F 2 "" H 5750 4550 50  0001 C CNN
 F 3 "~" H 5750 4550 50  0001 C CNN
