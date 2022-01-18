@@ -19,7 +19,7 @@
 
 5. Código general del funcionamiento usando los Drivers. [Oscar y Sergio 5/02]
 
-6. Documentación [Oscar y Sergio 7/02]
+6. Documentación y Brochure comercial [Oscar y Sergio 7/02]
 
 7. Sistema de reservas. (opcional)
 
