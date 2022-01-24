@@ -6,7 +6,7 @@
 	- Modulo ultrasonido [Sergio 25/01]
 
 	2. Interfaz de usuario:
-	- Led RGB [Sergio 25/01]
+	- Led RGB WS2812B [Sergio 25/01]
 	- 7seg (I2C) [Sergio 29/01]
 	- Control manual (Botones) (Interrupciones) [Sergio 29/01]
 
