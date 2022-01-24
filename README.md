@@ -15,10 +15,12 @@ Descripcion (Reemplazar por texto)
 
 ### Funciones - Extras:
 
-## Como funciona? 
+## **Como funciona?** 
 El controlador de aforo se basa principalmente en el uso del chip **ESP32-WROOM** el cual ejecuta diferentes funciones en base a los requerimientos del proyecto, el esquema general de los modulos especificos que hacen posible su funcionamiento se puede ver en la imagen a continaucion.
 
 ![Esquema de funcionalidades - Controlador de Aforo](/Imagenes/Esquema-Controlador-de-Aforo.png)
+
+## **Diseño de la PCB**
 
 ### **ESP32-WROOM:**
 
@@ -144,3 +146,7 @@ Una vez descritas todas las conexiones planteadas y las funcionalidades de la pl
 <img src="./Imagenes/EasyEDA-PCB-ControladorAforo.png" alt='EasyEDA - PCB diseñada - Controlador de Aforo' width="500px"/>
 
 <img src="./Imagenes/EasyEDA-3DTop-ControladorAforo.png" alt='EasyEDA - Vista superior Esquema 3D - Controlador de Aforo' width="500px"/>
+
+## **Programacion del Dispositivo**
+
+### **Modulo de Almacenamiento**
