@@ -177,7 +177,7 @@ class WavPlayer:
         self.state = WavPlayer.STOP
         
     def isplaying(self):
-        if self.state != WavPlayer.STOP:
+        if self.state == WavPlayer.PLAY:
             return True
         else:
             return False
