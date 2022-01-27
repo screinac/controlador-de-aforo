@@ -150,9 +150,39 @@ Una vez descritas todas las conexiones planteadas y las funcionalidades de la pl
 ## **Programacion del Dispositivo**
 
 
-### **Modulo display 7 segmentos**
+### **Modulo Indicador - display 7 segmentos**
+
+El modulo display 7 segmentos utiliza un protocolo similar al conocido I2C pero sin utilizar la direccion del sistema, por lo cual no se pudo implementar el modulo I2C de micropython y se implemento su propia libreria que hace posible la respectiva comunicacion con el integrado TM1627. antes de diseñar la clase con sus respectivos metodos que permita controlar el modulo de 7 segmentos se debe conocer el protocolo de comunicacion que posee el dispositivo teniendo la siguiente estructura:
+
+<img src="./Imagenes/7segment-protocol.png" alt='Jerarquia de metodos y librerias del modulo de almacenamiento' width="600px"/>
+
+Como se puede observar cuenta su estado por defecto corresponde a ambas señales en un estado logico alto, de modo que para iniciar la transmision de datos el bus de datos baja su estado logico a 0, seguidamente el pin clock empieza a enviar pulsos a una determinada frecuencia de modo que se envian varios paquetes de 1 byte con un pulso de confirmacion de por medio, una vez se termine la transmision de datos el reloj debe volver al estado logico alto seguido del bus de datos.
+
+Una vez teniendo conocimiento del protocolo de comunicacion se crea la respectiva clase **TM1637** de modo que se crean sus respectivos metodos para enviar datos a traves del protocolo, el primer metodo corresponde a **start** el cual actualiza ambas señales a 0 en orden para indicar que se va a iniciar la transmision de datos, luego el segundo metodo que corresponde a **Write_byte** envia a traves de un for bit a bit la informacion del byte mientras actualiza el reloj cada 10 microsegundos, una vez terminado el envio de datos se implementa el tercer metodo **stop** el cual pone las señales en el estado logico alto en su respectivo orden para indicar el fin de la transmision de los mismos.
+
+una vez teniendo el respectivo protocolo se ha de conocer los respectivos comandos del integrado con los cuales se pueden enviar datos, configurar desde que 7 segmentos se escriben los datos y configurar el brillo de los 7 segmentos, las respectivas tablas se observaran a continuacion.
+
+ 
+<img src="./Imagenes/7segmentos-config.png" alt='Tabla de comandos de configuracion - 7 segmentos' width="600px"/>
+
+<img src="./Imagenes/7segmentos-address.png" alt='Tabla de comandos de direccion - 7 segmentos' width="600px"/>
+
+<img src="./Imagenes/7segmentos-display.png" alt='Tabla de comandos de display - 7 segmentos' width="600px"/>
+
+una vez se conocen los respectivos comandos y se poseen los metodos que permiten la transmision de datos se tiene un metodo de inicializacion de la clase (**init**), el cual configura los respectivos pines del protocolo y configura un nivel de brillo de los mismos, seguido a esto escribe los comandos respectivos para iniciar el modo de escritura de datos y configuracion del brillo del display. 
+
+luego se define un metodo para cambiar el nivel de brillo del display (**brightness**) actualizando el valor del mismo y configurando a traves de los mismos comandos utilizados en el metodo init. 
+
+Una vez se tengan claros los comandos basicos para controlar el modulo 7 segmentos, se crea un metodo (**write**) el cual automatiza el proceso de asignacion de los valores respectivos a cada 7 segmentos a traves de un arreglo de 4 bytes, este metodo consiste en configurar el 7 segmentos en modo escritura de datos y seguido actualizar la direccion inicial (el 7 segmentos inicial) por una especificada (por defecto 0), luego se envian los bytes respectivos a cada 7 segmentos y por ultimo se vuelve a actualizar la configuracion de brillo del 7 segmentos finalizando la asignacion de valores del 7 segmentos respecitvamente, es necesario aclarar que la informacion de los bytes corresponde a la asignacion de encendido o apagado de cada led individual por lo cual para automatizar el proceso respectivamente se crean metodos adicionales que actuan como decodificadores para unicamente poner los valores tanto numericos como strings u otras posibles representaciones respecitivamente, la jerarquia de metodos de la clase se puede observar en el diagrama a continuacion:
+
+<img src="./Imagenes/TM1637Libreria.png" alt='Jerarquia de metodos y librerias del modulo de display 7 segmentos' width="1000px"/>
 
 
+### **Modulo Indicador - Led RGB**
+
+Para implementar un modulo que utilice el protocolo definido para el LED RGB WS2812, el esp32 posee una libreria nativa dentro de micropython que se llama Neopixel de modo que unicamente se declara la clase **NeoPixel** en una variable inicializandola con el pin de datos y el numero de pixeles a controlar, seguido a esto se seleccionan los valores de color RGB (8 por bits cada canal de color) y el numero del Led al cual se le cambien sus valores de color, por ejemplo np[0]=(255,255,255) y con este metodo se modifican directamente los colores del pixel seleccionado.
+
+### **Modulo de Deteccion - HC-SR04**
 
 ### **Modulo de Almacenamiento**
 
@@ -177,7 +207,7 @@ Una vez determinada una funcion basica para el envio de comandos de la tarjeta m
 
 con todos estos metodos definidos se puede controlar la tarjeta microSD a traves de la libreria **OS**, simplificando en modulos superiores el uso de comandos basicos de un sistema de archivos.
 
-### **Modulo de Audio**
+### **Modulo Indicador - Audio**
 
 El modulo de audio se gestiono en micropython a traves de la implementacion de una clase que posea los metodos necesarios para reproducir, pausar, resumir la reproduccion de audio wav almacenado en la tarjeta microSD. Para lograr esto se debe tener en cuenta que la tarjeta microSD se gestiona a traves de la libreria **OS** de modo que se utilizaran las funciones de esta libreria para leer los archivos multimedia wav almacenados en la tarjeta microSD. El formato WAV (Waveform Audio Format) es un contenedor que guarda los datos de audio sin ninguna compresion como puede ser MP3, OGG, etc..., de modo que se puede leer directamente su informacion de la tarjeta microSD y transmitirla al bus I2S sin realizar un proceso de descompresion antes, el formato WAV posee una estructura de modo que sus primeros 44 bytes hacen referencia a las especificaciones y propiedades del formato tales como la frecuencia de muestreo, los canales, los bits por muestra, etc.. y luego siguen los datos de audio sin comprimir, su estructura es la que se puede observar a continuacion
 
