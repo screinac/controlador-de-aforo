@@ -149,6 +149,7 @@ Una vez descritas todas las conexiones planteadas y las funcionalidades de la pl
 
 ## **Programacion del Dispositivo**
 
+A continuacion se comentan las consideraciones generales y las estructuras del codigo implementado para el control tanto de cada modulo como el funcionamiento del controlador de aforo, por lo cual se procede a explicar primero el funcionamiento de cada modulo y las funciones necesarias generadas para su facil control dentro del programa general.
 
 ### **Modulo Indicador - display 7 segmentos**
 
@@ -181,6 +182,11 @@ Una vez se tengan claros los comandos basicos para controlar el modulo 7 segment
 ### **Modulo Indicador - Led RGB**
 
 Para implementar un modulo que utilice el protocolo definido para el LED RGB WS2812, el esp32 posee una libreria nativa dentro de micropython que se llama Neopixel de modo que unicamente se declara la clase **NeoPixel** en una variable inicializandola con el pin de datos y el numero de pixeles a controlar, seguido a esto se seleccionan los valores de color RGB (8 por bits cada canal de color) y el numero del Led al cual se le cambien sus valores de color, por ejemplo np[0]=(255,255,255) y con este metodo se modifican directamente los colores del pixel seleccionado.
+
+### **Modulo control manual - Botones**
+
+El control manual del dispositivo se planteo a traves de interrupciones de modo que cuando se detecte un flanco de subida/bajada (se configura mas adelante) se ejecute una funcion respectiva que se configurara en la programacion del codigo general, la declaracion de las interrupciones se implementa a traves del metodo **irq** de la libreria Pin correspondiente al modulo machine de micropython, los argumentos de la interrupcion corresponden a la accion que desencadena la interrupcion y la funcion que se debe ejecutar respectivamente, de modo que la estructura del metodo es: irq(handler,trigger).
+
 
 ### **Modulo de Deteccion - HC-SR04**
 
@@ -221,3 +227,5 @@ El modulo de audio se gestiono en micropython a traves de la implementacion de u
 Una vez aclarada la estructura del formato a utilizar se definen los metodos basicos de la clase **Wavplayer**, la primera corresponde al metodo de inicializacion (**Init**) el cual define el bus I2S a utilizar, los pines respectivos del protocolo, el tamaño asignado al buffer del protocolo y la ruta donde se encuentra el archivo a reproducir, ademas se crea un buffer donde se cargaran los datos de la memoria microSD. una vez declarados los valores necesarios para inicializar el protocolo se implementa el segundo metodo que corresponde a la reproduccion de archivos (**Play**), el metodo primero busca si existe un fichero con el nombre de audio especificado, luego revisa el estado de la clase si se encuentra actualmente reproduciendo un audio o en estado de pausa, en caso que se encuentre libre abre el respectivo fichero y ejecuta un metodo el cual se encarga de obtener la informacion de los primeros 44 bytes del formato y ajustar los parametros restantes del protocolo I2S tales como el numero de canales (estero o mono), la frecuencia de muestreo y el numero de bits por muestra (El metodo corresponde a **parse**), luego de obtener esa informacion restante se inicializa el protocolo I2S con los parametros configurados en init y la configuracion restante del archivo de audio de modo que se avanza en la lectura de los primeros 44 bytes del archivos, luego se declara un metodo que se ejecuta durante la interrupcion del protocolo I2S que corresponde a cuando el buffer esta vacio, este metodo corresponde a **I2S_callback** y se encarga de verificar el estado respectivo de la clase, en caso que se encuentre en reproduccion lee la informacion del fichero de audio desde la tarjeta microSD para luego transferirlos al buffer del protocolo I2S para que siga su reproduccion hasta que se vacie y genere otra interrupcion. Existe un caso especifico en la interrupcion el cual corresponde a cuando no se llena el buffer de lectura en la microSD lo cual implica que se encuentra al final del archivo WAV, por ende se copian los ultimos datos al buffer de audio y en caso que ya se hallan reproducido se cierra el archivo de audio, se desinicializa el protocolo I2S para que no genere mas interrupciones y se actualiza al estado STOP. los metodos **resume**, **stop** y **pause** solo actualizan el estado de la clase, mientras que el metodo **isplaying** retorna un booleano si el reproductor se encuentra en el estado PLAY. La jerarquia de comunicacion y los metodos mencionados anteriormente se pueden observar en el siguiente esquema.
 
 <img src="./Imagenes/Audiolibreria.png" alt='Jerarquia de metodos y librerias del modulo de Audio' width="1000px"/>
+
+### **Modulo wifi**
