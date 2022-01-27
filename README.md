@@ -184,6 +184,11 @@ Para implementar un modulo que utilice el protocolo definido para el LED RGB WS2
 
 ### **Modulo de Deteccion - HC-SR04**
 
+La implementacion del modulo ultrasonido HC-SR04 dentro de micropython es sencilla de modo que su funcionamiento se resume principalmente en 3 metodos, el primero de ellos hace referencia a la inicializacion del ultrasonido (**Init**) de modo que unicamente configura los pines a implementar y configura un tiempo de espera en caso que no exista respuesta por parte del sensor para interrumpir el proceso, el segundo metodo corresponde a **Send_pulse_and_wait** y consiste en enviar un pulso de 10 microsegundos a traves del pin Trigger para indicarle al sensor que realice la respectiva medicion para luego haciendo uso de los contadores internos del microcontrolador registrar el tiempo en el cual el sensor mantiene activo el pin echo obteniendo el tiempo del pulso otorgado por el sensor, por ultimo el tercer metodo corresponde a **distance** consiste en almacenar la duracion del pulso devuelto por echo en el metodo anterior y realizar una conversion a las unidades relacionando la duracion del pulso con la velocidad del sonido y la distancia recorrida, la jerarquia de metodos se puede observar a continuacion.
+
+<img src="./Imagenes/Ultrasonidolibreria.png" alt='Jerarquia de metodos y librerias del modulo Ultrasonido HC-SR04' width="1000px"/>
+
+
 ### **Modulo de Almacenamiento**
 
 El modulo de almacenamiento se gestiono en mycropython a traves de la libreria de servicios basicos de "sistema operativo" **OS** integrada y una libreria personalizada para administrar la tarjeta microSD a traves del protocolo SPI pues los pines de la microSD no se conectaron a traves de los dedicados del bus SPI por ende no es posible el uso de la libreria **SDcard** integrada en **Machine**, en su lugar se utilizo una implementacion que hace uso del metodo **SOFTSPI** en la libreria **SPI** integrada en **Machine** para gestionar el protocolo SPI a traves de software.
