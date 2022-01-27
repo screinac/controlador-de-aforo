@@ -149,6 +149,11 @@ Una vez descritas todas las conexiones planteadas y las funcionalidades de la pl
 
 ## **Programacion del Dispositivo**
 
+
+### **Modulo display 7 segmentos**
+
+
+
 ### **Modulo de Almacenamiento**
 
 El modulo de almacenamiento se gestiono en mycropython a traves de la libreria de servicios basicos de "sistema operativo" **OS** integrada y una libreria personalizada para administrar la tarjeta microSD a traves del protocolo SPI pues los pines de la microSD no se conectaron a traves de los dedicados del bus SPI por ende no es posible el uso de la libreria **SDcard** integrada en **Machine**, en su lugar se utilizo una implementacion que hace uso del metodo **SOFTSPI** en la libreria **SPI** integrada en **Machine** para gestionar el protocolo SPI a traves de software.
