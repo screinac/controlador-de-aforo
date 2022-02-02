@@ -61,6 +61,8 @@ p12.irq(handler=Botonirq3,trigger=Pin.IRQ_FALLING)
 p14.irq(handler=Botonirq2,trigger=Pin.IRQ_FALLING)
 p27.irq(handler=Botonirq1,trigger=Pin.IRQ_FALLING)
 
+timewrite=time.ticks_ms()
+
 
 wlan = network.WLAN(network.STA_IF) # create station interface
 wlan.active(True)       # activate the interface
@@ -83,7 +85,7 @@ os.chdir('sd')
 TIMEOUT = const(100)
 limite_mayor = 4.5 #m^2
 limite_inferior = 10 #m^2
-DISTANCIAPASO = 13 #cm
+distancia_paso = 13 #cm
 
 #Variables Ultrasonido-1
 entrada1=0
@@ -111,13 +113,37 @@ proteccionAudio=0
 ssid = 'FAMILIA GORDILLO 2.4'
 password = 'gordillo2089'
 
+personas=5
 espacio = 60
 modo_ultrasonido = 4
-
-
 ejecucion = True 
 
-personas=5
+writechar=''
+
+with open('config.txt',"r") as archivo:
+    for linea in archivo.readlines():
+        linea=linea.strip('\n')
+        linea=linea.split('=')
+        
+        if 'ssid' in linea:
+            ssid=linea[1]
+        if 'password' in linea:
+            password=linea[1]
+        if 'limite_mayor' in linea:
+            limite_mayor=float(linea[1])
+        if 'limite_inferior' in linea:
+            limite_inferior=float(linea[1])
+        if 'distancia_paso' in linea:
+            distancia_paso=float(linea[1])
+        if 'espacio' in linea:
+            espacio=float(linea[1])
+        if 'modo_ultrasonido' in linea:
+            modo_ultrasonido=int(linea[1])
+        if 'personas' in linea:
+            personas=int(linea[1])
+
+
+
 relacion=personas/espacio
 
 if (relacion > 1/limite_mayor):
@@ -144,7 +170,7 @@ while ejecucion:
             time.sleep_ms(50)
             distanciau2 = Ultra2.distance_cm()
             time.sleep_ms(50)
-            if((distanciau1 < DISTANCIAPASO) and (distanciau2 >= DISTANCIAPASO)):
+            if((distanciau1 < distancia_paso) and (distanciau2 >= distancia_paso)):
                 if(proteccion1==0):
                     if(salida1==1):
                         personas -=1
@@ -152,7 +178,7 @@ while ejecucion:
                         proteccion1=1
                     else:
                         entrada1=1
-            elif((distanciau1 >= DISTANCIAPASO) and (distanciau2 < DISTANCIAPASO)):
+            elif((distanciau1 >= distancia_paso) and (distanciau2 < distancia_paso)):
                 if(proteccion1==0):
                     if(entrada1==1):
                         personas +=1
@@ -162,7 +188,7 @@ while ejecucion:
                     else:
                         salida1=1
 
-            if((distanciau1 >= DISTANCIAPASO) and (distanciau2 >= DISTANCIAPASO)):
+            if((distanciau1 >= distancia_paso) and (distanciau2 >= distancia_paso)):
                 proteccion1=0
       
 
@@ -171,7 +197,7 @@ while ejecucion:
             time.sleep_ms(50)
             distanciau4 = Ultra4.distance_cm()
             time.sleep_ms(50)
-            if((distanciau3 < DISTANCIAPASO) and (distanciau4 >= DISTANCIAPASO)):
+            if((distanciau3 < distancia_paso) and (distanciau4 >= distancia_paso)):
                 if(proteccion2==0):
                     if(salida2==1):
                         personas -=1
@@ -179,7 +205,7 @@ while ejecucion:
                         proteccion2=1
                     else:
                         entrada2=1
-            elif((distanciau3 >= DISTANCIAPASO) and (distanciau4 < DISTANCIAPASO)):
+            elif((distanciau3 >= distancia_paso) and (distanciau4 < distancia_paso)):
                 if(proteccion2==0):
                     if(entrada2==1):
                         personas +=1
@@ -189,7 +215,7 @@ while ejecucion:
                     else:
                         salida2=1
 
-            if((distanciau3 >= DISTANCIAPASO) and (distanciau4 >= DISTANCIAPASO)):
+            if((distanciau3 >= distancia_paso) and (distanciau4 >= distancia_paso)):
                 proteccion2=0
 
     elif (modo_ultrasonido == 2): #entrada bidireccional - entrada - entrada
@@ -199,7 +225,7 @@ while ejecucion:
         time.sleep_ms(50)
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO) and (distanciau2 >= DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso) and (distanciau2 >= distancia_paso)):
             if(proteccion1==0):
                 if(salida1==1):
                     personas -=1
@@ -207,7 +233,7 @@ while ejecucion:
                     proteccion1=1
                 else:
                     entrada1=1
-        elif((distanciau1 >= DISTANCIAPASO) and (distanciau2 < DISTANCIAPASO)):
+        elif((distanciau1 >= distancia_paso) and (distanciau2 < distancia_paso)):
             if(proteccion1==0):
                 if(entrada1==1):
                     personas +=1
@@ -217,32 +243,32 @@ while ejecucion:
                 else:
                     salida1=1
 
-        if((distanciau1 >= DISTANCIAPASO) and (distanciau2 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso) and (distanciau2 >= distancia_paso)):
             proteccion1=0
       
 
         #Ultrasonido Entrada - 1
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion2==0):
                 personas +=1
                 proteccion2=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion2=0
 
 
         #Ultrasonido Entrada - 2
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion3==0):
                 
                 personas +=1
                 proteccion3=1
             
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion3=0
 
 
@@ -254,7 +280,7 @@ while ejecucion:
         time.sleep_ms(50)
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO) and (distanciau2 >= DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso) and (distanciau2 >= distancia_paso)):
             if(proteccion1==0):
                 if(salida1==1):
                     personas -=1
@@ -262,7 +288,7 @@ while ejecucion:
                     proteccion1=1
                 else:
                     entrada1=1
-        elif((distanciau1 >= DISTANCIAPASO) and (distanciau2 < DISTANCIAPASO)):
+        elif((distanciau1 >= distancia_paso) and (distanciau2 < distancia_paso)):
             if(proteccion1==0):
                 if(entrada1==1):
                     personas +=1
@@ -272,31 +298,31 @@ while ejecucion:
                 else:
                     salida1=1
 
-        if((distanciau1 >= DISTANCIAPASO) and (distanciau2 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso) and (distanciau2 >= distancia_paso)):
             proteccion1=0
       
 
         #Ultrasonido Entrada - 1
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion2==0):
                 personas +=1
                 proteccion2=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion2=0
 
 
         #Ultrasonido salida - 1
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion3==0):    
                 personas -=1
                 proteccion3=1
                 
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion3=0
 
 
@@ -306,94 +332,94 @@ while ejecucion:
         #Ultrasonido Entrada - 1
         distanciau1 = Ultra1.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso)):
             if(proteccion1==0):
                 personas +=1
                 proteccion1=1
                 
-        if((distanciau1 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso)):
             proteccion1=0
 
         #Ultrasonido Entrada - 2
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau2 < DISTANCIAPASO)):
+        if((distanciau2 < distancia_paso)):
             if(proteccion2==0):
                 personas +=1
                 proteccion2=1
             
-        if((distanciau2 >= DISTANCIAPASO)):
+        if((distanciau2 >= distancia_paso)):
             proteccion2=0    
       
 
         #Ultrasonido Entrada - 3
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion3==0):
                 personas +=1
                 proteccion3=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion3=0
 
 
         #Ultrasonido Entrada - 4
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion4==0):
                 personas +=1
                 proteccion4=1
             
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion4=0
 
     elif (modo_ultrasonido == 5): #entrada - entrada - entrada - salida
            #Ultrasonido Entrada - 1
         distanciau1 = Ultra1.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso)):
             if(proteccion1==0):
                 personas +=1
                 proteccion1=1
                 
-        if((distanciau1 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso)):
             proteccion1=0
 
         #Ultrasonido Entrada - 2
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau2 < DISTANCIAPASO)):
+        if((distanciau2 < distancia_paso)):
             if(proteccion2==0):
                 personas +=1
                 proteccion2=1
             
-        if((distanciau2 >= DISTANCIAPASO)):
+        if((distanciau2 >= distancia_paso)):
             proteccion2=0    
       
 
         #Ultrasonido Entrada - 3
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion3==0):
                 personas +=1
                 proteccion3=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion3=0
 
 
         #Ultrasonido Salida - 1
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion4==0):
                 personas -=1
                 proteccion4=1
             
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion4=0
 
     elif (modo_ultrasonido == 6): #entrada - entrada - salida - salida
@@ -401,47 +427,47 @@ while ejecucion:
            #Ultrasonido Entrada - 1
         distanciau1 = Ultra1.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso)):
             if(proteccion1==0):
                 personas +=1
                 proteccion1=1
                 
-        if((distanciau1 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso)):
             proteccion1=0
 
         #Ultrasonido Entrada - 2
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau2 < DISTANCIAPASO)):
+        if((distanciau2 < distancia_paso)):
             if(proteccion2==0):
                 personas +=1
                 proteccion2=1
             
-        if((distanciau2 >= DISTANCIAPASO)):
+        if((distanciau2 >= distancia_paso)):
             proteccion2=0    
       
 
         #Ultrasonido Salida - 1
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion3==0):
                 personas -=1
                 proteccion3=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion3=0
 
 
         #Ultrasonido Salida - 2
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion4==0):
                 personas -=1
                 proteccion4=1
             
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion4=0
 
     elif (modo_ultrasonido == 7): #entrada - salida - salida - salida
@@ -449,47 +475,47 @@ while ejecucion:
            #Ultrasonido Entrada - 1
         distanciau1 = Ultra1.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso)):
             if(proteccion1==0):
                 personas +=1
                 proteccion1=1
                 
-        if((distanciau1 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso)):
             proteccion1=0
 
         #Ultrasonido Salida - 1
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau2 < DISTANCIAPASO)):
+        if((distanciau2 < distancia_paso)):
             if(proteccion2==0):
                 personas -=1
                 proteccion2=1
             
-        if((distanciau2 >= DISTANCIAPASO)):
+        if((distanciau2 >= distancia_paso)):
             proteccion2=0    
       
 
         #Ultrasonido Salida - 2
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion3==0):
                 personas -=1
                 proteccion3=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion3=0
 
 
         #Ultrasonido Salida - 3
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion4==0):
                 personas -=1
                 proteccion4=1
             
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion4=0
 
     elif (modo_ultrasonido == 8): #salida - salida - salida - salida
@@ -498,51 +524,56 @@ while ejecucion:
            #Ultrasonido Salida - 1
         distanciau1 = Ultra1.distance_cm()
         time.sleep_ms(50)
-        if((distanciau1 < DISTANCIAPASO)):
+        if((distanciau1 < distancia_paso)):
             if(proteccion1==0):
                 personas -=1
                 proteccion1=1
                 
-        if((distanciau1 >= DISTANCIAPASO)):
+        if((distanciau1 >= distancia_paso)):
             proteccion1=0
 
         #Ultrasonido Salida - 2
         distanciau2 = Ultra2.distance_cm()
         time.sleep_ms(50)
-        if((distanciau2 < DISTANCIAPASO)):
+        if((distanciau2 < distancia_paso)):
             if(proteccion2==0):
                 personas -=1
                 proteccion2=1
             
-        if((distanciau2 >= DISTANCIAPASO)):
+        if((distanciau2 >= distancia_paso)):
             proteccion2=0    
       
 
         #Ultrasonido Salida - 3
         distanciau3 = Ultra3.distance_cm()
         time.sleep_ms(50)
-        if((distanciau3 < DISTANCIAPASO)):
+        if((distanciau3 < distancia_paso)):
             if(proteccion3==0):
                 personas -=1
                 proteccion3=1
                 
-        if((distanciau3 >= DISTANCIAPASO)):
+        if((distanciau3 >= distancia_paso)):
             proteccion3=0
 
 
         #Ultrasonido Salida - 4
         distanciau4 = Ultra4.distance_cm()
         time.sleep_ms(50)
-        if((distanciau4 < DISTANCIAPASO)):
+        if((distanciau4 < distancia_paso)):
             if(proteccion4==0):
                 personas -=1
                 proteccion4=1
             
-        if((distanciau4 >= DISTANCIAPASO)):
+        if((distanciau4 >= distancia_paso)):
             proteccion4=0
+    else:
+        modo_ultrasonido=1
 
 
-
+    if(time.ticks_diff(time.ticks_ms(),timewrite)>2000):
+        timewrite=time.ticks_ms()
+        with open('config.txt',"w") as archivo:
+            archivo.write('config\n'+'ssid='+ssid+'\n'+'password='+password+'\n'+'limite_mayor='+str(limite_mayor)+'\n'+'limite_inferior='+str(limite_inferior)+'\n'+'distancia_paso='+str(distancia_paso)+'\n'+'espacio='+str(espacio)+'\n'+'modo_ultrasonido='+str(modo_ultrasonido)+'\n'+'personas='+str(personas)+'\n')
 
 
 

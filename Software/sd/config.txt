@@ -1,0 +1,9 @@
+config
+ssid='FAMILIA GORDILLO 2.4'
+password='gordillo2089'
+espacio=60
+modo_ultrasonido=1
+personas=100
+limite_mayor=4.5
+limite_inferior=10
+distancia_paso=13
