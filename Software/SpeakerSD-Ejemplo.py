@@ -41,11 +41,10 @@ print('SD Card contains:{}'.format(os.listdir()))
 #time.sleep(5)
 #wp.pause()
 
-wp.play("The Rare Occasions.wav", loop=False)
+wp.play("The Rare Occasions16b.wav", loop=False)
 # # wait until the entire WAV file has been played
-while wp.isplaying() == True:
+while True:
     print('Holi')
-    time.sleep(5)
     
 
 # wp.play("Midwinters.wav", loop=False)
