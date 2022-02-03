@@ -1,24 +1,67 @@
-# Sistema Controlador de Aforo
+# **Sistema Controlador de Aforo**
 
-Descripcion (Reemplazar por texto)
+## Autores
+- Oscar Leonardo Riveros Perez
+- Sergio Camilo Reina Cardenas
 
-## Componentes
-### Dispositivo - Base:
-- ESP32-WROOM-32
-- FT232RL o CP2102
-### Dispositivo - Extras:
+Este repositorio de codigo esta destinado al desarrollo del proyecto de la asignatura Sistemas Embebidos de modo que a continuacion se mostrara todas las consideraciones, guias de diseño, codigo y pruebas para realizar el sistema de control de aforo planteado a continuacion.
 
+## En que consiste el Controlador de Aforo?
+
+El dispositivo consiste en un sistema embebido capaz de detectar la entrada y salida de personas (incluso objetos) de modo que cuenta el aforo aproximado dentro del establecimiento, por lo cual a traves de esta informacion y datos previamente configurados como el area del recinto se pueda obtener cuantas personas ocupan un espacio en el recinto. Ubicando dicha cantidad de personas en 3 zonas (Aforo Libre - Aforo Concurrido - Aforo Lleno) se obtiene un control del estado de aforo del recinto de modo que dependiendo de la zona en la que se encuentre el recinto se emitiran distintas alertas que indican las acciones pertinentes a realizar para evitar el contagio de virus tales como el SARS-CoV-2 entre otros...
+
+ la informacion mostrada y sensada se guarda en un respectivo positivo de almacenamiento para tener los ultimos registros actualizados y otorgar la posibilidad de actualizar el sistema sin necesidad de intervencion con el microcontrolador, ademas de que se implemento una interfaz con un servidor WEB la cual cumple la misma funcion teniendo la posibilidad de configurar el dispositivo y mostrando los datos de aforo en tiempo real.
+
+<img src="./Imagenes/Controlador-Aforo.png" alt='Dispositivo Funcional' width="800px"/>
+
+
+
+## Componentes - Controlador de Aforo
+
+El controlador de Aforo cuenta con los siguientes componentes para su funcionamiento:
+
+- Dispositivos Base:
+    - ESP32-WROOM-32 -> Microcontrolador
+    - HC-SR04 -> Sensor de Distancia
+    - Socket MicroSD -> Lector de tarjeta microSD
+    - Botones -> Control manual
+    - WS2812B -> Led Indicador de zonas
+    - Display 7 segmentos (con Integrado TM1637) -> Contador de personas
+    - Max98357A -> Amplificador y decodificador I2S
+    - Speaker 4 Ohm 3W -> Indicador por Audio
+    - Bateria 3.3v
+
+<br /> 
+
+- Alimentacion del dispositivo:
+    - USB-C socket -> Puerto de carga
+    - TP4056 -> Cargador de Baterias
+    - DW01A -> Proteccion Bateria
+    - NTF6P02T3G (PMOS) -> Puente de carga
+    - MT3608 -> Elevador de tension
+    - AMS1117-3v3 -> Regulador de tension 
+
+<br /> 
+
+- Programacion Externa:
+    - FT232RL o CP2102
 
 ## Funcionalidades
 
-### Funciones - Base:
+El controlador de aforo ejecuta las siguientes funciones especificas necesarias para el correcto funcionamiento del sistema embebido:
 
-### Funciones - Extras:
+- Leer y Almacener archivos en la memoria MicroSD
+- Ejecutar interrupciones Externas
+- Conectarse a una red de Wifi
+- Enviar bytes de audio a traves del protocolo I2C
+- Medir la distancia del entorno
+- Cambiar el color de un LED RGB
+- Enviar informacion a traves del protocolo especifico TM1637
+- Enviar y recibir informacion de un servidor a traves de Wifi
+- Carga de bateria a traves de alimentacion USB-C
 
-## **Como funciona?** 
-El controlador de aforo se basa principalmente en el uso del chip **ESP32-WROOM** el cual ejecuta diferentes funciones en base a los requerimientos del proyecto, el esquema general de los modulos especificos que hacen posible su funcionamiento se puede ver en la imagen a continaucion.
 
-![Esquema de funcionalidades - Controlador de Aforo](/Imagenes/Esquema-Controlador-de-Aforo.png)
+<img src="./Imagenes/Controlador-Aforo-Componentes.png" alt='Dispositivo Funcional - Componentes' width="600px"/>
 
 ## **Diseño de la PCB**
 
