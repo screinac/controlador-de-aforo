@@ -569,8 +569,10 @@ while ejecucion:
     else:
         modo_ultrasonido=1
 
+    if(personas<0):
+        personas=0
 
-    if(time.ticks_diff(time.ticks_ms(),timewrite)>2000):
+    if((time.ticks_diff(time.ticks_ms(),timewrite)>10000) and (wp.isplaying==False)):
         timewrite=time.ticks_ms()
         with open('config.txt',"w") as archivo:
             archivo.write('config\n'+'ssid='+ssid+'\n'+'password='+password+'\n'+'limite_mayor='+str(limite_mayor)+'\n'+'limite_inferior='+str(limite_inferior)+'\n'+'distancia_paso='+str(distancia_paso)+'\n'+'espacio='+str(espacio)+'\n'+'modo_ultrasonido='+str(modo_ultrasonido)+'\n'+'personas='+str(personas)+'\n')
