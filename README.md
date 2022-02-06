@@ -215,83 +215,17 @@ Teniendo el diseño completo de la PCB del controlador de aforo se utilizaron di
 
 # **Programacion del Dispositivo**
 
-A continuacion se comentan las consideraciones generales y las estructuras del codigo implementado para el control tanto de cada modulo como el funcionamiento del controlador de aforo, por lo cual se procede a explicar primero el funcionamiento de cada modulo y las funciones necesarias generadas para su facil control dentro del programa general.
+Una vez realizado el diseño y fabricacion de la PCB donde se integran los componentes necesarios para el correcto funcionamiento tanto del microcontrolador como los dispositivos externos, se realiza la respectiva programacion del microcontrolador a traves de micropython. El desarrollo del codigo necesario para controlar los perisfericos individualmente se presenta a continuacion:
 
-### **Modulo Indicador - display 7 segmentos**
+- [Display 7 Segmentos - TM1637](/Perifericos/7segmentos.md)
 
-El modulo display 7 segmentos utiliza un protocolo similar al conocido I2C pero sin utilizar la direccion del sistema, por lo cual no se pudo implementar el modulo I2C de micropython y se implemento su propia libreria que hace posible la respectiva comunicacion con el integrado TM1627. antes de diseñar la clase con sus respectivos metodos que permita controlar el modulo de 7 segmentos se debe conocer el protocolo de comunicacion que posee el dispositivo teniendo la siguiente estructura:
+- [LED RGB - WS2812B](/Perifericos/LEDRGB.md)
 
-<img src="./Imagenes/7segment-protocol.png" alt='Jerarquia de metodos y librerias del modulo de almacenamiento' width="600px"/>
+- [Botones - Interrupciones](/Perifericos/Botones.md)
 
-Como se puede observar cuenta su estado por defecto corresponde a ambas señales en un estado logico alto, de modo que para iniciar la transmision de datos el bus de datos baja su estado logico a 0, seguidamente el pin clock empieza a enviar pulsos a una determinada frecuencia de modo que se envian varios paquetes de 1 byte con un pulso de confirmacion de por medio, una vez se termine la transmision de datos el reloj debe volver al estado logico alto seguido del bus de datos.
+- [Ultrasonido - HC-SR04](/Perifericos/Ultrasonido.md)
 
-Una vez teniendo conocimiento del protocolo de comunicacion se crea la respectiva clase **TM1637** de modo que se crean sus respectivos metodos para enviar datos a traves del protocolo, el primer metodo corresponde a **start** el cual actualiza ambas señales a 0 en orden para indicar que se va a iniciar la transmision de datos, luego el segundo metodo que corresponde a **Write_byte** envia a traves de un for bit a bit la informacion del byte mientras actualiza el reloj cada 10 microsegundos, una vez terminado el envio de datos se implementa el tercer metodo **stop** el cual pone las señales en el estado logico alto en su respectivo orden para indicar el fin de la transmision de los mismos.
+- [Almacenamiento - MicroSD](/Perifericos/MicroSD.md)
 
-una vez teniendo el respectivo protocolo se ha de conocer los respectivos comandos del integrado con los cuales se pueden enviar datos, configurar desde que 7 segmentos se escriben los datos y configurar el brillo de los 7 segmentos, las respectivas tablas se observaran a continuacion.
+- [Audio - MAX98357A](/Perifericos/Audio.md)
 
- 
-<img src="./Imagenes/7segmentos-config.png" alt='Tabla de comandos de configuracion - 7 segmentos' width="600px"/>
-
-<img src="./Imagenes/7segmentos-address.png" alt='Tabla de comandos de direccion - 7 segmentos' width="600px"/>
-
-<img src="./Imagenes/7segmentos-display.png" alt='Tabla de comandos de display - 7 segmentos' width="600px"/>
-
-una vez se conocen los respectivos comandos y se poseen los metodos que permiten la transmision de datos se tiene un metodo de inicializacion de la clase (**init**), el cual configura los respectivos pines del protocolo y configura un nivel de brillo de los mismos, seguido a esto escribe los comandos respectivos para iniciar el modo de escritura de datos y configuracion del brillo del display. 
-
-luego se define un metodo para cambiar el nivel de brillo del display (**brightness**) actualizando el valor del mismo y configurando a traves de los mismos comandos utilizados en el metodo init. 
-
-Una vez se tengan claros los comandos basicos para controlar el modulo 7 segmentos, se crea un metodo (**write**) el cual automatiza el proceso de asignacion de los valores respectivos a cada 7 segmentos a traves de un arreglo de 4 bytes, este metodo consiste en configurar el 7 segmentos en modo escritura de datos y seguido actualizar la direccion inicial (el 7 segmentos inicial) por una especificada (por defecto 0), luego se envian los bytes respectivos a cada 7 segmentos y por ultimo se vuelve a actualizar la configuracion de brillo del 7 segmentos finalizando la asignacion de valores del 7 segmentos respecitvamente, es necesario aclarar que la informacion de los bytes corresponde a la asignacion de encendido o apagado de cada led individual por lo cual para automatizar el proceso respectivamente se crean metodos adicionales que actuan como decodificadores para unicamente poner los valores tanto numericos como strings u otras posibles representaciones respecitivamente, la jerarquia de metodos de la clase se puede observar en el diagrama a continuacion:
-
-<img src="./Imagenes/TM1637Libreria.png" alt='Jerarquia de metodos y librerias del modulo de display 7 segmentos' width="1000px"/>
-
-
-### **Modulo Indicador - Led RGB**
-
-Para implementar un modulo que utilice el protocolo definido para el LED RGB WS2812, el esp32 posee una libreria nativa dentro de micropython que se llama Neopixel de modo que unicamente se declara la clase **NeoPixel** en una variable inicializandola con el pin de datos y el numero de pixeles a controlar, seguido a esto se seleccionan los valores de color RGB (8 por bits cada canal de color) y el numero del Led al cual se le cambien sus valores de color, por ejemplo np[0]=(255,255,255) y con este metodo se modifican directamente los colores del pixel seleccionado.
-
-### **Modulo control manual - Botones**
-
-El control manual del dispositivo se planteo a traves de interrupciones de modo que cuando se detecte un flanco de subida/bajada (se configura mas adelante) se ejecute una funcion respectiva que se configurara en la programacion del codigo general, la declaracion de las interrupciones se implementa a traves del metodo **irq** de la libreria Pin correspondiente al modulo machine de micropython, los argumentos de la interrupcion corresponden a la accion que desencadena la interrupcion y la funcion que se debe ejecutar respectivamente, de modo que la estructura del metodo es: irq(handler,trigger).
-
-
-### **Modulo de Deteccion - HC-SR04**
-
-La implementacion del modulo ultrasonido HC-SR04 dentro de micropython es sencilla de modo que su funcionamiento se resume principalmente en 3 metodos, el primero de ellos hace referencia a la inicializacion del ultrasonido (**Init**) de modo que unicamente configura los pines a implementar y configura un tiempo de espera en caso que no exista respuesta por parte del sensor para interrumpir el proceso, el segundo metodo corresponde a **Send_pulse_and_wait** y consiste en enviar un pulso de 10 microsegundos a traves del pin Trigger para indicarle al sensor que realice la respectiva medicion para luego haciendo uso de los contadores internos del microcontrolador registrar el tiempo en el cual el sensor mantiene activo el pin echo obteniendo el tiempo del pulso otorgado por el sensor, por ultimo el tercer metodo corresponde a **distance** consiste en almacenar la duracion del pulso devuelto por echo en el metodo anterior y realizar una conversion a las unidades relacionando la duracion del pulso con la velocidad del sonido y la distancia recorrida, la jerarquia de metodos se puede observar a continuacion.
-
-<img src="./Imagenes/Ultrasonidolibreria.png" alt='Jerarquia de metodos y librerias del modulo Ultrasonido HC-SR04' width="1000px"/>
-
-
-### **Modulo de Almacenamiento**
-
-El modulo de almacenamiento se gestiono en mycropython a traves de la libreria de servicios basicos de "sistema operativo" **OS** integrada y una libreria personalizada para administrar la tarjeta microSD a traves del protocolo SPI pues los pines de la microSD no se conectaron a traves de los dedicados del bus SPI por ende no es posible el uso de la libreria **SDcard** integrada en **Machine**, en su lugar se utilizo una implementacion que hace uso del metodo **SOFTSPI** en la libreria **SPI** integrada en **Machine** para gestionar el protocolo SPI a traves de software.
-
-Para poder implementar la libreria personalizada se debe crear una clase que inicialice la tarjeta microSD y cuente con los metodos **readblocks**, **writeblocks** y **ioctl** necesarios para su utilizacion con la libreria **OS**, adicionalmente se deben crear los metodos necesarios para que las funciones mencionadas anteriormente puedan interactuar con la tarjeta microSD a traves del protocolo SPI. La jerarquia de comunicacion y metodos implementados para la comunicacion entre **OS** y la microSD se puede observar en el esquema a continacion:
-
-<img src="./Imagenes/SDlibreria.png" alt='Jerarquia de metodos y librerias del modulo de almacenamiento' width="1000px"/>
-
-Como se puede observar en el esquema de funciones, el protocolo SPI es el nivel de comunicacion mas bajo en la jerarquia teniendo una conexion directa con la tarjeta microSD, su implementacion en codigo respectivamente se hace utilizando el metodo **SOFTSPI** y  declarando como argumento los pines respectivos donde se realizara su comunicacion (MOSI, MISMO, CLK)(CS se gestiona independientemente) por lo cual una vez declarados los puertos se configura la cantidad de baudios con la que se comunicara el protocolo. una vez configurado el protocolo se hace uso de los metodos **spi.write**, **spi.read**, **spi.readinto** y **spi.write_readinto** para enviar y recibir datos incluso al mismo tiempo.
-
-Una vez teniendo las funciones basicas de comunicacion del protocolo SPI, se necesita un metodo que permita enviar comandos a la tarjeta MicroSD para que pueda realizar diferentes funciones tanto de lectura como de escritura, de modo que generalmente las tarjetas del tipo SD poseen la siguiente estructura en la linea de comandos:
-
-| Byte1 | Byte1 | Byte1    | Byte2-5   | Byte6 | Byte6 |
-|-------|-------|----------|-----------|-------|-------|
-| 7     | 6     |   5-0    |   31-0    |   7   | 0     |
-| 0     | 1     |  Comand  | Arguments | CRC   | 1     |
-
-Teniendo la estructura de datos necesaria se declara un metodo que reciba los comandos y argumentos que se deseen enviar a traves de un buffer para luego utilizar el metodo spi.write y enviar dicha informacion a la tarjeta microSD de modo que luego se reciba una respuesta de un byte la cual sera retornada por el metodo, en caso de no recibir respuesta dentro de un tiempo determinado el metodo retorna -1.
-
-Una vez determinada una funcion basica para el envio de comandos de la tarjeta microSD es necesario generar las funciones basicas para enviar y leer datos las cuales se reflejan en **readinto**, **write** y **write_token**. luego de definir las comunicaciones basicas es necesario inicializar la tarjeta microSD a traves de comandos que permitan iniciar la tarjeta microSD, obtener la version de la tarjeta, obtener el numero de sectores de la tarjeta y ajustar la longitud de los bloques a 512 bytes con el fin de que el sistema unicamente se encargue de escribir y recibir la informacion que necesita, por esto se declaran 3 funciones especificas de bloques necesarias para interactuar con los bloques de la tarjeta y almacenar/leer datos de la misma, estos bloques como se ha visto corresponden a **readblocks**, **writeblocks** y **ioctl** de modo que a traves de comandos de escritura/lecturas de uno o multiples bloques se envia/lee la informacion necesaria en la tarjeta microSD. 
-
-con todos estos metodos definidos se puede controlar la tarjeta microSD a traves de la libreria **OS**, simplificando en modulos superiores el uso de comandos basicos de un sistema de archivos.
-
-### **Modulo Indicador - Audio**
-
-El modulo de audio se gestiono en micropython a traves de la implementacion de una clase que posea los metodos necesarios para reproducir, pausar, resumir la reproduccion de audio wav almacenado en la tarjeta microSD. Para lograr esto se debe tener en cuenta que la tarjeta microSD se gestiona a traves de la libreria **OS** de modo que se utilizaran las funciones de esta libreria para leer los archivos multimedia wav almacenados en la tarjeta microSD. El formato WAV (Waveform Audio Format) es un contenedor que guarda los datos de audio sin ninguna compresion como puede ser MP3, OGG, etc..., de modo que se puede leer directamente su informacion de la tarjeta microSD y transmitirla al bus I2S sin realizar un proceso de descompresion antes, el formato WAV posee una estructura de modo que sus primeros 44 bytes hacen referencia a las especificaciones y propiedades del formato tales como la frecuencia de muestreo, los canales, los bits por muestra, etc.. y luego siguen los datos de audio sin comprimir, su estructura es la que se puede observar a continuacion
-
-<img src="./Imagenes/wavformat.png" alt='Estructura del formato WAV' width="500px"/>
-
-Una vez aclarada la estructura del formato a utilizar se definen los metodos basicos de la clase **Wavplayer**, la primera corresponde al metodo de inicializacion (**Init**) el cual define el bus I2S a utilizar, los pines respectivos del protocolo, el tamaño asignado al buffer del protocolo y la ruta donde se encuentra el archivo a reproducir, ademas se crea un buffer donde se cargaran los datos de la memoria microSD. una vez declarados los valores necesarios para inicializar el protocolo se implementa el segundo metodo que corresponde a la reproduccion de archivos (**Play**), el metodo primero busca si existe un fichero con el nombre de audio especificado, luego revisa el estado de la clase si se encuentra actualmente reproduciendo un audio o en estado de pausa, en caso que se encuentre libre abre el respectivo fichero y ejecuta un metodo el cual se encarga de obtener la informacion de los primeros 44 bytes del formato y ajustar los parametros restantes del protocolo I2S tales como el numero de canales (estero o mono), la frecuencia de muestreo y el numero de bits por muestra (El metodo corresponde a **parse**), luego de obtener esa informacion restante se inicializa el protocolo I2S con los parametros configurados en init y la configuracion restante del archivo de audio de modo que se avanza en la lectura de los primeros 44 bytes del archivos, luego se declara un metodo que se ejecuta durante la interrupcion del protocolo I2S que corresponde a cuando el buffer esta vacio, este metodo corresponde a **I2S_callback** y se encarga de verificar el estado respectivo de la clase, en caso que se encuentre en reproduccion lee la informacion del fichero de audio desde la tarjeta microSD para luego transferirlos al buffer del protocolo I2S para que siga su reproduccion hasta que se vacie y genere otra interrupcion. Existe un caso especifico en la interrupcion el cual corresponde a cuando no se llena el buffer de lectura en la microSD lo cual implica que se encuentra al final del archivo WAV, por ende se copian los ultimos datos al buffer de audio y en caso que ya se hallan reproducido se cierra el archivo de audio, se desinicializa el protocolo I2S para que no genere mas interrupciones y se actualiza al estado STOP. los metodos **resume**, **stop** y **pause** solo actualizan el estado de la clase, mientras que el metodo **isplaying** retorna un booleano si el reproductor se encuentra en el estado PLAY. La jerarquia de comunicacion y los metodos mencionados anteriormente se pueden observar en el siguiente esquema.
-
-<img src="./Imagenes/Audiolibreria.png" alt='Jerarquia de metodos y librerias del modulo de Audio' width="1000px"/>
-
-### **Modulo wifi**
