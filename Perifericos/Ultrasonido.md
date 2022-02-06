@@ -8,7 +8,7 @@ El modulo de ultrasonido HC-SR04 es la base del funcionamiento del controlador d
 
 El funcionalmiento de este modulo se basa en un diagrama de tiempos donde a traves de un pulso desde el microcontrolador se le informa al ultrasonido que debe empezar su medicion y seguido a esto, el dispositivo genera un pulso con una duracion del tiempo que tardo el sonido en impactar con un objeto y devolverse al sensor , osea el doble de la distancia entre un objeto y el sensor.
 
-<img src="../Imagenes/HCSR04-protocolo.jpg" alt='Diagrama de tiempos analogos - Ultrasonido' width="500px"/>
+<img src="../Imagenes/HCSR04-Protocolo.jpg" alt='Diagrama de tiempos analogos - Ultrasonido' width="500px"/>
 
 ## **Libreria**
 
