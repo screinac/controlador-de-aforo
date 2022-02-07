@@ -14,7 +14,7 @@ np = NeoPixel(Pin(23), NUM_OF_LED)
 # #    np.write()
 # # ------------------------------------------------------------
 # # 1. To set the 1st neopixel to red color:
-np[0] = (91, 9, 9)
+np[0] = (255, 0, 255)
 np.write()
 # 
 # # 2. To set the 4th neopixel to green color:

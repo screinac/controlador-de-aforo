@@ -595,11 +595,11 @@ while ejecucion:
 
     if((relacion < 1/limite_mayor*1.05) and (relacion > 1/limite_mayor*0.95)):
         if (proteccionAudio==0):
-            wp.play("Midwinters - 16b.wav", loop=False)
+            wp.play("aforo-grave.wav", loop=False)
             proteccionAudio=1
     elif ((relacion < 1/limite_inferior*1.05) and (relacion > 1/limite_inferior*0.95)):
         if (proteccionAudio==0):
-            wp.play("Gaur Plains - 16b.wav", loop=False)
+            wp.play("aforo-leve.wav", loop=False)
             proteccionAudio=1
 
     if((relacion < 1/limite_inferior*0.8) or ((relacion > 1/limite_inferior*1.2) and (relacion < 1/limite_mayor*0.8)) or (relacion > 1/limite_mayor*1.2)):

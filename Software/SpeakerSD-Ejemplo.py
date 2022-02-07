@@ -29,29 +29,24 @@ os.chdir('sd')
 print('SD Card contains:{}'.format(os.listdir()))
 
 
-#wp.play("Gaur Plains.wav", loop=False)
-# wait until the entire WAV file has been played
+wp.play("Gaur Plains.wav", loop=False)
+#wait until the entire WAV file has been played
 
-#while wp.isplaying() == True:
-#    print('Holi')
-#    time.sleep(5)
+while wp.isplaying() == True:
+   print('Holi')
+   time.sleep(5)
     
 
 
 #time.sleep(5)
 #wp.pause()
 
-wp.play("The Rare Occasions16b.wav", loop=False)
+# wp.play("The Rare Occasions - 16b.wav", loop=False)
 # # wait until the entire WAV file has been played
-while True:
-    print('Holi')
+# while True:
+#    print('Holi')
     
 
-# wp.play("Midwinters.wav", loop=False)
-# # wait until the entire WAV file has been played
-# while wp.isplaying() == True:
-#     print('Holi')
-#     time.sleep(5)
     
 
 # wp.play("Take.wav", loop=False)
@@ -61,10 +56,15 @@ while True:
 #     time.sleep(5)
     
 
-wp.play("Possessed by Disease.wav", loop=False)
-# wait until the entire WAV file has been played
-while wp.isplaying() == True:
-    print('Holi')
-    time.sleep(5)
+# wp.play("Possessed by Disease.wav", loop=False)
+# # wait until the entire WAV file has been played
+# while wp.isplaying() == True:
+#     print('Holi')
+#     time.sleep(5)
     
 
+# wp.play("Midwinters.wav", loop=False)
+# # wait until the entire WAV file has been played
+# while wp.isplaying() == True:
+#     print('Holi')
+#     time.sleep(5)
