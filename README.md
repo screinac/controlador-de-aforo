@@ -215,7 +215,7 @@ Teniendo el diseño completo de la PCB del controlador de aforo se utilizaron di
 
 # **Programacion del Dispositivo**
 
-Una vez realizado el diseño y fabricacion de la PCB donde se integran los componentes necesarios para el correcto funcionamiento tanto del microcontrolador como los dispositivos externos, se realiza la respectiva programacion del microcontrolador a traves de micropython. El desarrollo del codigo necesario para controlar los perisfericos individualmente se presenta a continuacion:
+Una vez realizado el diseño y fabricacion de la PCB donde se  integran los componentes necesarios para el correcto funcionamiento tanto del microcontrolador como los dispositivos externos, se realiza la respectiva programacion del microcontrolador a traves de micropython. El desarrollo del codigo necesario para controlar los perisfericos individualmente se presenta a continuacion:
 
 - [Display 7 Segmentos - TM1637](/Perifericos/7segmentos.md)
 
@@ -229,3 +229,4 @@ Una vez realizado el diseño y fabricacion de la PCB donde se integran los compo
 
 - [Audio - MAX98357A](/Perifericos/Audio.md)
 
+Una vez realizado el codigo necesario para controlar los diferentes perifericos para el controlador de aforo, se implemento el codigo principal del sistema el cual se puede resumir en el siguiente diagrama. 
