@@ -23,6 +23,6 @@ Teniendo en cuenta lo anteriormente mencionado, la informacion de color que se d
 En el siguiente enlace se muestra un video haciendo uso del montaje de desarrollo donde a traves codigo desarrollado **WS2812-Ejemplo.py** se muestra el funcionamiento del LED RGB en el microcontrolador.
 
 
-*Poner Link del video
+[Video Prueba LED RGB](https://drive.google.com/file/d/1WkTEnJxqm6Mms1k2PJ-fX1q_n-D0U_Dy/view?usp=sharing "Video Prueba LED RGB")
 
 

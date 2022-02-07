@@ -42,4 +42,5 @@ Una vez se tengan claros los comandos basicos para controlar el modulo 7 segment
 En el siguiente enlace se muestra un video haciendo uso del montaje de desarrollo donde a traves de la libreria implementada **TM1637.py** se controlan los 7 segmentos con el codigo desarrollado **7segments-Ejemplo.py**.
 
 
-*Poner Link del video
+[Video Prueba 7 Segmentos](https://drive.google.com/file/d/1iE7ZFIj7as74ddjcWh3S14TXLPQS3Yxi/view?usp=sharing "Video Prueba 7 Segmentos")
+

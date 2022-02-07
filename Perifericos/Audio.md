@@ -28,4 +28,4 @@ Una vez aclarada la estructura del formato a utilizar se definen los metodos bas
 
 En el siguiente enlace se muestra un video haciendo uso del montaje de desarrollo donde a traves de las librerias implementadas **WAVPLAYER.py** y **SDCARD.py** se reproduce musica almacenada en la tarjeta microSD a traves de un parlante utilizando el codigo desarrollado **SpeakerSD-Ejemplo.py**
 
-*Poner Link del video
+[Video Prueba Audio](https://drive.google.com/file/d/13KvLDV-GK35MUSSJ7bcn1hrcYEm7ktB_/view?usp=sharing "Video Prueba Audio")

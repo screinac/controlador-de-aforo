@@ -229,4 +229,14 @@ Una vez realizado el diseño y fabricacion de la PCB donde se  integran los comp
 
 - [Audio - MAX98357A](/Perifericos/Audio.md)
 
-Una vez realizado el codigo necesario para controlar los diferentes perifericos para el controlador de aforo, se implemento el codigo principal del sistema el cual se puede resumir en el siguiente diagrama. 
+Una vez realizado el codigo necesario para controlar los diferentes perifericos para el controlador de aforo, se implemento el codigo principal del sistema el cual se puede resumir en el siguiente diagrama donde se muestra la logica del algoritmo de ejecucion. 
+
+<img src="./Imagenes/Codigo-Principal.png" alt='Algoritmo de funcionamiento del sistema'/>
+
+<img src="./Imagenes/Codigo-Ultrasonido.png" alt='Algoritmo de funcionamiento del sistema' width="600px"/>
+
+De modo que teniendo la rutina de funcionamiento del sistema controlador de aforo se pone a prueba su funcionamiento tal y como se puede observar en los siguientes videos
+
+[Video Prueba Codigo Principal](https://drive.google.com/file/d/1DpC-rx6eNb7NdOsbPi9TDKSZAz35STaH/view?usp=sharing "Video Prueba Codigo Principal")
+
+[Video Prueba Codigo Principal - Botones](https://drive.google.com/file/d/1Xm1BT4d_Bo_UqYZqokCm6PzdpIdTOp7b/view?usp=sharing "Video Prueba Codigo Principal - Botones")

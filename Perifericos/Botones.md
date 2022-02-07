@@ -13,4 +13,4 @@ El control manual del dispositivo se planteo a traves de interrupciones de modo 
 En el siguiente enlace se muestra un video haciendo uso del montaje de desarrollo donde a traves codigo desarrollado **IrqButton-Ejemplo.py** se muestra el funcionamiento de las interrupciones externas en el microcontrolador.
 
 
-*Poner Link del video
+[Video Prueba Botones](https://drive.google.com/file/d/1KtVJ5w2eADA8epNlAai2FJKVspL_asvZ/view?usp=sharing "Video Prueba Botones")
