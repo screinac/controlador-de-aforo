@@ -240,3 +240,11 @@ De modo que teniendo la rutina de funcionamiento del sistema controlador de afor
 [Video Prueba Codigo Principal](https://drive.google.com/file/d/1DpC-rx6eNb7NdOsbPi9TDKSZAz35STaH/view?usp=sharing "Video Prueba Codigo Principal")
 
 [Video Prueba Codigo Principal - Botones](https://drive.google.com/file/d/1Xm1BT4d_Bo_UqYZqokCm6PzdpIdTOp7b/view?usp=sharing "Video Prueba Codigo Principal - Botones")
+
+</br>
+
+## **Notas de Diseño**
+
+Algo que se debe tener muy en cuenta a la hora de replicar el controlador de aforo para mejorar el diseño corresponde a las resistencias Pull-Up implementadas en los botones, esto debido a que no se observo que en el datasheet del microcontrolador implementado se especifica que el Pin 12 debe estar en configuracion Pull-Down para el correcto funcionamiento de la placa, en este caso debido a que se implemento una resistencia Pull-Up la placa generaba error al intentar ser programada por lo cual se tuvo que quitar el resistor correspondiente al pin GPIO12 para deshabilitar el respectivo Pull-UP, la tabla que especifica si un pin debe estar en configuracion Pull-Up o Pull-Down para su correcto funcionamiento al reiniciar es la siguiente:
+
+<img src="./Imagenes/Pin-pull.png" alt='Tabla de especificaciones de Pines para progamar el ESP32'/>
