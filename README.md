@@ -210,7 +210,18 @@ Teniendo el diseño completo de la PCB del controlador de aforo se utilizaron di
 
 <img src="./Imagenes/Placa de Desarrollo.jpeg" alt='PCB Impresa' width="500px"/>
 
-**Insertar Diseño de caja 3D, impresion de la caja
+Ahora, con el el fin de unicamente de tener el dispositivo empaquetado con los elementos con los que el usuario interactua visibles, se realizo una caja sencilla con las aperturas necesarias de modo que se pudiese ingresar el dispositivo dentro de ella, tal y como se puede observar a continuacion.
+
+<img src="./Imagenes/ControladorAforo-Final1.jpeg" alt='Dispositivo completo - Controlador de Aforo' width="500px"/>
+
+<img src="./Imagenes/ControladorAforo-Final2.jpeg" alt='Dispositivo completo - Controlador de Aforo' width="500px"/>
+
+<img src="./Imagenes/ControladorAforo-Final3.jpeg" alt='Dispositivo completo - Controlador de Aforo' width="500px"/>
+
+<img src="./Imagenes/ControladorAforo-Final4.jpeg" alt='Dispositivo completo - Controlador de Aforo' width="500px"/>
+
+
+
 
 
 # **Programacion del Dispositivo**
@@ -240,6 +251,11 @@ De modo que teniendo la rutina de funcionamiento del sistema controlador de afor
 [Video Prueba Codigo Principal](https://drive.google.com/file/d/1DpC-rx6eNb7NdOsbPi9TDKSZAz35STaH/view?usp=sharing "Video Prueba Codigo Principal")
 
 [Video Prueba Codigo Principal - Botones](https://drive.google.com/file/d/1Xm1BT4d_Bo_UqYZqokCm6PzdpIdTOp7b/view?usp=sharing "Video Prueba Codigo Principal - Botones")
+
+[Controlador de Aforo - Prueba #1](https://drive.google.com/file/d/15uGaQDlrFzsJZFsqkCuU1Zft-tO57118/view?usp=sharing "Controlador de Aforo - Prueba #1")
+
+[Controlador de Aforo - Prueba #2](https://drive.google.com/file/d/15uGaQDlrFzsJZFsqkCuU1Zft-tO57118/view?usp=sharing "Controlador de Aforo - Prueba #2")
+
 
 </br>
 
