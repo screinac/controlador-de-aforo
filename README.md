@@ -220,7 +220,7 @@ Ahora, con el el fin de unicamente de tener el dispositivo empaquetado con los e
 
 <img src="./Imagenes/ControladorAforo-Final4.jpeg" alt='Dispositivo completo - Controlador de Aforo' width="500px"/>
 
-<img src="./Imagenes/ControladorAforo-Final5.jpeg" alt='Dispositivo completo - Controlador de Aforo' width="500px"/>
+
 
 
 
