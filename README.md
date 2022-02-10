@@ -255,7 +255,7 @@ De modo que teniendo la rutina de funcionamiento del sistema controlador de afor
 
 [Controlador de Aforo - Prueba #1](https://drive.google.com/file/d/15uGaQDlrFzsJZFsqkCuU1Zft-tO57118/view?usp=sharing "Controlador de Aforo - Prueba #1")
 
-[Controlador de Aforo - Prueba #2](https://drive.google.com/file/d/15uGaQDlrFzsJZFsqkCuU1Zft-tO57118/view?usp=sharing "Controlador de Aforo - Prueba #2")
+[Controlador de Aforo - Prueba #2](https://drive.google.com/file/d/1f2GRTZBahxgxNUtWcc2ShW_QZQ9_Vtpt/view?usp=sharing "Controlador de Aforo - Prueba #2")
 
 
 </br>
